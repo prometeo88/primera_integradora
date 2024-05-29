@@ -23,15 +23,17 @@ app.use(express.urlencoded({ extended: true }));
 const productsRouter = require("./routes/products.js")(io);
 const cartsRouter = require("./routes/carts.js");
 const viewsRouter = require("./routes/views.js");
+const usersRouter = require("./routes/users.routers.js");
 const { default: mongoose } = require("mongoose");
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/", viewsRouter);
+app.use("/api/users",usersRouter)
 
 mongoose
   .connect(
-    "mongodb+srv://fullua:<nuevapassword>@fedeu.z6zxkgk.mongodb.net/fulluabase?retryWrites=true&w=majority&appName=FedeU"
+    "mongodb+srv://fullua:123456789fullua@fedeu.z6zxkgk.mongodb.net/db-beta?retryWrites=true&w=majority&appName=FedeU"
   )
   .then(() => {
     console.log("Conectado a la base de datos");
