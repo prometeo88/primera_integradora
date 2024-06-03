@@ -3,37 +3,12 @@ const messagesModel = require('../dao/models/messages.model.js');
 const router = express.Router();
 
 router.get('/', async (req, res) => {
-    try {
-        
-    } catch (error) {
-        
-    }
+  try {
+    const messages = await messagesModel.find();
+    res.status(200).json({ result: "success", payload: messages });
+  } catch (error) {
+    res.status(500).json({ result: "error", message: error.message });
+  }
 });
 
-router.post('/', async (req, res) => {
-    try {
-        
-    } catch (error) {
-        
-    }
-        
-});    
-
-router.put('/:uid', async (req, res) => {
-    try {
-        
-    } catch (error) {
-        
-    }
-        
-});    
-
-router.delete('/:uid', async (req, res) => {
-    try {
-        
-    } catch (error) {
-        
-    }
-        
-});    
 module.exports = router;

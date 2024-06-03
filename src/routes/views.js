@@ -26,4 +26,8 @@ router.get("/realtimeproducts", async (req, res) => {
   }
 });
 
+router.get('/api/messages', (req, res) => {
+  res.render('messages');
+});
+
 module.exports = router;

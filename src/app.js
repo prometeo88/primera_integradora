@@ -7,9 +7,26 @@ const socketIo = require("socket.io");
 
 const server = http.createServer(app);
 const io = socketIo(server);
+
+const messagesModel = require('./dao/models/messages.model.js');
+
 io.on("connection", (socket) => {
-  console.log("Nuevo cliente conectado con exito");
+  console.log("Nuevo cliente conectado con éxito");
+
+  messagesModel.find().then(messages => {
+    messages.forEach(msg => {
+      socket.emit('message', msg);
+    });
+  });
+
+  socket.on('message', async (data) => {
+    console.log(data);
+    const newMessage = new messagesModel(data);
+    await newMessage.save();
+    io.emit('message', data);
+  });
 });
+
 app.set("io", io);
 
 app.engine("handlebars", expressHandlebars.engine());
@@ -24,14 +41,14 @@ app.use(express.urlencoded({ extended: true }));
 //const cartsRouter = require("./routes/carts.js");
 const productsRouter = require ("./routes/products.routers.js")
 const cartsRouter = require("./routes/carts.routers.js");
-//const viewsRouter = require("./routes/views.js");
+const viewsRouter = require("./routes/views.js");
 const usersRouter = require("./routes/users.routers.js");
 const messagesRouter = require("./routes/messages.routers.js")
 const { default: mongoose } = require("mongoose");
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
-//app.use("/", viewsRouter); COMENTO HASTA QUE REDIRECCIONE PRODUCTOS A MONGOGB
+app.use("/", viewsRouter); 
 app.use("/api/users",usersRouter)
 app.use("/api/messages",messagesRouter)
 
