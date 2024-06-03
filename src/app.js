@@ -20,20 +20,24 @@ app.use(express.static(__dirname + "/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const productsRouter = require("./routes/products.js")(io);
-const cartsRouter = require("./routes/carts.js");
-const viewsRouter = require("./routes/views.js");
+// const productsRouter = require("./routes/products.js")(io);
+//const cartsRouter = require("./routes/carts.js");
+const productsRouter = require ("./routes/products.routers.js")
+const cartsRouter = require("./routes/carts.routers.js");
+//const viewsRouter = require("./routes/views.js");
 const usersRouter = require("./routes/users.routers.js");
+const messagesRouter = require("./routes/messages.routers.js")
 const { default: mongoose } = require("mongoose");
 
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
-app.use("/", viewsRouter);
+//app.use("/", viewsRouter); COMENTO HASTA QUE REDIRECCIONE PRODUCTOS A MONGOGB
 app.use("/api/users",usersRouter)
+app.use("/api/messages",messagesRouter)
 
 mongoose
   .connect(
-    "mongodb+srv://fullua:123456789fullua@fedeu.z6zxkgk.mongodb.net/db-beta?retryWrites=true&w=majority&appName=FedeU"
+    "mongodb+srv://fullua:123456789fullua@fedeu.z6zxkgk.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=FedeU"
   )
   .then(() => {
     console.log("Conectado a la base de datos");
